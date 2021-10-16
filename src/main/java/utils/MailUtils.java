@@ -15,7 +15,7 @@ public class MailUtils {
          */
         String sendEmailAccount = "dnslin@outlook.lv";                            // 发件人邮箱
         String sendEmailPassword = "catchers.tech";                                        // 发件人密码
-        String receiveMailAccount = "dnsline@qq.com";                                // 收件人邮箱
+        String receiveMailAccount = "blankmaker@foxmail.com";                                // 收件人邮箱
         Properties props = new Properties();
         props.setProperty("mail.smtp.port", "587");
         props.setProperty("mail.smtp.socketFactory.port", "587");

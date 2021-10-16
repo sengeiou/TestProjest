@@ -1,22 +1,22 @@
 package controller;
 
-import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import Dto.IcpInfoDTO;
 import entity.parameter;
-import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.collections4.Get;
-import org.apache.http.Header;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
-import org.apache.http.ParseException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.protocol.HttpClientContext;
-import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.config.Registry;
 import org.apache.http.config.RegistryBuilder;
 import org.apache.http.conn.socket.ConnectionSocketFactory;
@@ -32,17 +32,13 @@ import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.ssl.SSLContextBuilder;
 import org.apache.http.util.EntityUtils;
-import org.junit.Test;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
-import java.net.URISyntaxException;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -54,7 +50,13 @@ import java.util.List;
  * @param  
  * @return 
  */
+@NoArgsConstructor
+@Data
 public class IcpforRecord {
+    @JsonProperty("code")
+    private Integer code;
+    @JsonProperty("msg")
+    private String msg;
 
     /*
     *
@@ -209,9 +211,10 @@ public class IcpforRecord {
     public static void main(String[] args) throws IOException, NoSuchAlgorithmException {
         String cookie = getCookie();
         String token = requestToGetToken(cookie);
-        System.out.println(initiateRequest(cookie, token));
+        String result = initiateRequest(cookie, token);
+        JSONObject jsonObject = JSONObject.parseObject(result);
+        String list = jsonObject.getJSONObject("params").getString("list").replace("[","").replace("]","");
+        IcpInfoDTO icpInfoDTO = JSON.parseObject(list, IcpInfoDTO.class);
+        System.out.println(icpInfoDTO);
     }
-
-
-
 }

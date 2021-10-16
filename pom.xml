@@ -80,7 +80,6 @@
             <version>1.7.25</version>
         </dependency>
 
-
         <!-- 百度通用文字api-->
         <dependency>
             <groupId>com.baidu.aip</groupId>

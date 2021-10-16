@@ -15,6 +15,8 @@ import java.util.Scanner;
 /**
  * ss://method:password@server:port
  */
+
+
 public class main {
     public static void main(String[] args) throws UnsupportedEncodingException {
         Uservice uservice = new Uservice();
