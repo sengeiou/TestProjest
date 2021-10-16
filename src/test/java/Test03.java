@@ -44,4 +44,11 @@ public class Test03 {
         String unitName = jsonObject.getString("unitName");
         System.out.println(unitName);
     }
+
+    @Test
+    public void test05(){
+        String cookie = "AQszrAnKXZjF6vv1FP2W9Y0LJP6VwUKHc6klWygb";
+        int length = cookie.length();
+        System.out.println(length);
+    }
 }

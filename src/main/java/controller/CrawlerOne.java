@@ -32,25 +32,30 @@ public class CrawlerOne {
 
     public static String getTheData() throws IOException {
         Map<String, String> cookies = null;
-        Connection.Response res = Jsoup.connect("http://www.glidedsky.com/login").timeout(30000).execute();
+        Connection.Response res = Jsoup.connect("http://www.glidedsky.com").timeout(30000).execute();
         cookies = res.cookies();
         String token = null;
-        Document doc = Jsoup.connect("http://www.glidedsky.com/login").cookies(cookies).get();
+        Document doc = Jsoup.connect("http://www.glidedsky.com").cookies(cookies).get();
         for (int i = 0; i < doc.getElementsByTag("meta").size(); i++) {
-            if (doc.getElementsByTag("meta").get(i).attr("content").length() == 40){
+            if (doc.getElementsByTag("meta").get(i).attr("content").length() <= 40){
                 token = doc.getElementsByTag("meta").get(i).attr("content");
             }
         }
+        String cookie = cookies.toString().replace("{", "").replace("}", "");
         Crawler crawler = new Crawler();
-        ObjectMapper MAPPER = new ObjectMapper();
+//        ObjectMapper MAPPER = new ObjectMapper();
         HttpPost post=new HttpPost("http://www.glidedsky.com/login");
         // 设置头信息
         post.setHeader("Host",  "www.glidedsky.com");
+        post.setHeader("Connection",  "keep-alive");
+        post.setHeader("Origin",  "www.glidedsky.com");
+        post.setHeader("Accept",  "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9");
         post.setHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.71 Safari/537.36");
         post.setHeader("Referer",  "http://www.glidedsky.com/login");
+        post.setHeader("Accept-Encoding",  "gzip, deflate");
         post.setHeader("Content-Type", "application/x-www-form-urlencoded");
-        post.setHeader("Cookie", cookies.toString().replace("{","").replace("}",""));
-//        post.setHeader("Cookie","XSRF-TOKEN=eyJpdiI6InByV3FiZWNQbmpBeVwvNHZUZlhPZWp3PT0iLCJ2YWx1ZSI6IlV1VkllODZrMkFVWHNkdEhZVGVZZHZmdndyT0FIY1M0T0VTc05JZHlHTWozcjlHNnVTTTF0cCtVWHhkYWpVcGoiLCJtYWMiOiI0MzZlNmUzMWNlNDNjZWQ1OTk3NTA1MWYyZTlmYTEzOWQ2ZjQ5NzdmOTk5ZWZjMjhjOGVhOTA3MjhlZWNjYTI5In0%3D; glidedsky_session=eyJpdiI6IjRtVTFZTEpXTWdhNzNUdXZLTmpKZ3c9PSIsInZhbHVlIjoidVhIUzNtUjZrK1dpMGFLRzFDbHlrVlNYVkhTNHgrTzFLTVR3WjNES05sVkpzbU0zdlRJS21kekNoaWordXVWTyIsIm1hYyI6ImVhYTQ5MjMwYzE5YjNmZWFkMGNiNzE3M2Y5ZDZjZjBjOGEzOTQwNWYwMzk2OTUxZDQ4ODM4MzBlZDFmNDA3MTgifQ%3D%3D; footprints=eyJpdiI6IjA1dVNWV2xyRVBBR090Rng4ZWJUUUE9PSIsInZhbHVlIjoicE5RcGFKU0FpNDk0bjVxWGZEVTlpbFhqaUVub2tTOW9zMDFjK05HVTBJTHBXXC8xakdjTXptOUZqUWdaZFh3VksiLCJtYWMiOiJhZDE3YWYwNWNjMWU3NTRlMTNlZTY1ZjEyN2UyOGY5MzAwYTdiZWM0ZTg1Nzg3MjM0YzAzYWE2NmEwMmNjNTg0In0%3D; Hm_lvt_020fbaad6104bcddd1db12d6b78812f6=1634392262; Hm_lpvt_020fbaad6104bcddd1db12d6b78812f6=1634392262; _ga=GA1.2.537626033.1634392262; _gid=GA1.2.1752073277.1634392262; __gads=ID=7003b63ce2464e26-22c283279ecc0080:T=1634392263:RT=1634392263:S=ALNI_MZ1zSJInGnYHEWBz-Uy1A9fwUXt7A");
+        post.setHeader("Cookie", cookie);
+        post.setHeader("Accept-Language", "zh-CN,zh;q=0.9,en;q=0.8,zh-TW;q=0.7,zh-HK;q=0.6");
         // 设置参数实体信息
 //        crawler.set_token("IHTmRkjTxU2VPMAW8jAXowY2lN6dmiI425i9uwrr");
 //        crawler.setEmail("i@zwm.me");
@@ -61,6 +66,8 @@ public class CrawlerOne {
         // 设置实体信息
 //        post.setEntity(new StringEntity(json,"UTF-8"));
         // 发出请求得到实体信息
+        System.out.println("token-------》"+token);
+        System.out.println("cookie-------》"+cookie);
         List<NameValuePair> list = new LinkedList<>();
         BasicNameValuePair param1 = new BasicNameValuePair("_token", token);
         BasicNameValuePair param2 = new BasicNameValuePair("email", "i@zwm.me");
