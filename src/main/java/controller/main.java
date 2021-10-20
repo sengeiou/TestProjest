@@ -27,16 +27,12 @@ public class main {
     
     public static String substring() throws UnsupportedEncodingException {
         Scanner scanner = new Scanner(System.in);
-        System.out.print("请输入加密算法:");
-        String method = scanner.next();
         System.out.print("请输入密码:");
         String password = scanner.next();
         System.out.print("请输入服务地址:");
         String server = scanner.next();
-        System.out.print("请输入端口号:");
-        String port = scanner.next();
         String i = ":";
-        return method+i+password+"@"+server+i+port;
+        return "chacha20-ietf-poly1305"+i+password+"@"+server+i+"8388";
     }
 
 
