@@ -1,16 +1,11 @@
 package controller;
 
-import cn.hutool.core.date.DateTime;
-import cn.hutool.core.date.DateUtil;
-import cn.hutool.core.lang.Console;
-import okhttp3.RequestBody;
-import org.junit.Test;
+
 import service.Uservice;
 
 import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.util.Base64;
-import java.util.Scanner;
+
+import java.util.*;
 
 /**
  * ss://method:password@server:port
@@ -20,17 +15,27 @@ import java.util.Scanner;
 public class main {
     public static void main(String[] args) throws UnsupportedEncodingException {
         Uservice uservice = new Uservice();
-        String substring = substring();
-        String link = Base64.getEncoder().encodeToString(substring.getBytes("utf-8"));
-        System.out.println("ss://"+link);
+        List<String> substring = substring();
+        for (int i = 0; i < substring.size(); i++) {
+            String link =  Base64.getEncoder().encodeToString(substring.get(i).getBytes("utf-8"));
+            System.out.println("ss://"+link);
+        }
+
     }
     
-    public static String substring() throws UnsupportedEncodingException {
+    public static List<String> substring() throws UnsupportedEncodingException {
+        ArrayList<String> arr = new ArrayList<String>();
         Scanner scanner = new Scanner(System.in);
         System.out.print("请输入服务地址:");
         String server = scanner.next();
+        String substring = server.trim().substring(0, server.length());
+        String[] split = substring.split(",");//以逗号分割
         String i = ":";
-        return "chacha20-ietf-poly1305"+i+"8ZDndBVFtoao5A7k9EVMPFRHBmUrFVa"+"@"+server+i+"8388";
+        for (int a = 0; a < split.length; a++) {
+           String text = "chacha20-ietf-poly1305"+i+"8ZDndBVFtoao5A7k9EVMPFRHBmUrFVa"+"@"+split[a]+i+"8388";
+           arr.add(text);
+        }
+        return arr;
     }
 
 
