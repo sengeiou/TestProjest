@@ -40,4 +40,16 @@ public class Test01 {
     public void time(){
         System.out.println(System.currentTimeMillis());
     }
+
+
+    @Test
+    public void test06(){
+        String string = "张三,李四,王五,马六,小气";
+        String substring = string.trim().substring(0, string.length());
+        System.out.println(substring);
+        String[] split = substring.split(",");//以逗号分割
+        for (String string2 : split) {
+            System.out.println("数据-->>>" + string2);
+        }
+    }
 }
